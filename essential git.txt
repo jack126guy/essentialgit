@@ -96,6 +96,8 @@ The "[scope]" option can be "--global" or "--system", among others. If it is lef
 
 The "[config-option]"'s you'll need are "user.name" and "user.email".
 
+If "[value]" has spaces, you'll have to put it in quotation marks for it to work.
+
 =The Working Directory
 
 A repository is a collection of files, and not just the files you work on for your project. But you might have some trouble finding those extra files for history and tracking.
