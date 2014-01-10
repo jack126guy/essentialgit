@@ -523,7 +523,7 @@ Setting up your branches to track remote-tracking branches automates the pulling
 Command-line syntax:
 git pull [remote] [refspec]
 git pull --all [refspec]
-git branch {-u [upstream] | --set-upstream-to=[upstream]} [branch]
+git branch --set-upstream [upstream] [branch]
 
 The "git pull" command pulls from a remote. The "[remote]" option is the name of the remote. Use "--all" instead of the name of a remote to pull from all remotes. The "[refspec]" option is the same as for fetching. That is, it can get complex, but the simple case is a list of branches separated by spaces, though it can get more complex; if "[refspec]" is omitted, Git will pull all branches from the given remote.
 
