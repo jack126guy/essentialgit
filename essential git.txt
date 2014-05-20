@@ -525,9 +525,9 @@ git pull [remote] [refspec]
 git pull --all [refspec]
 git branch --set-upstream [upstream] [branch]
 
-The "git pull" command pulls from a remote. The "[remote]" option is the name of the remote. Use "--all" instead of the name of a remote to pull from all remotes. The "[refspec]" option is the same as for fetching. That is, it can get complex, but the simple case is a list of branches separated by spaces, though it can get more complex; if "[refspec]" is omitted, Git will pull all branches from the given remote.
+The "git pull" command pulls from a remote, that is, fetches all branches and merges certain branches into the branch to which HEAD points. The "[remote]" option is the name of the remote. Use "--all" instead of the name of a remote to fetch from all remotes. The "[refspec]" option is the same as for fetching. That is, it can get complex, but the simple case is a list of branches separated by spaces. With this, all of the listed branches are merged into the current branch (the branch to which HEAD points), regardless of tracking. (This may result in an "octopus.") If "[refspec]" is omitted, Git will fetch all branches from the given remote and merge the tracked branch into the branch to which HEAD points.
 
-The "git branch" command with the options shown sets up tracking. It tells the branch named in "[branch]" (one of your branches) to track "[upstream]" (a remote-tracking branch). The "-u [upstream]" and "--set-upstream-to=[upstream]" options mean the same thing; you don't have to include both.
+The "git branch" command with the options shown sets up tracking. It tells the branch named in "[branch]" (one of your branches) to track "[upstream]" (a remote-tracking branch).
 
 ==Putting Changes into Remotes: Push
 
