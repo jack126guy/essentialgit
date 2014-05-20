@@ -542,4 +542,4 @@ The merges in the diagram must be fast-forwards. Your branches must include all 
 Command-line syntax:
 git push [remote] [refspec]
 
-The "[remote]" option is the name of the remote, and "[refspec]" is the branches to push. It can get complex, but the simple case is just a list of branches separated by spaces. If "[refspec]" is omitted, Git will push all branches to the given remote.
+The "[remote]" option is the name of the remote, and "[refspec]" is the branches to push. It can get complex, but the simple case is just a list of branches separated by spaces. If "[refspec]" is omitted, Git will push all branches that have corresponding branches with the same name on the given remote. (This means that, if you created a new branch and want to push it to a remote where it doesn't exist yet, you will have to specify the name.)
