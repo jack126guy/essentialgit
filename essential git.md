@@ -8,8 +8,8 @@ I learned most of what I know about Git from the book available online at <http:
 
 Although I give that work high praise, I still wish to offer my own guide, which differs in certain respects that may make it more suitable for some people.
 
--Consideration of graphical clients: The book only considers the original Linux command-line client. This guide not only provides command-line syntax, but it also allows users of graphical clients to navigate them.
--Pragmatic organization: This guide introduces the most-needed concepts and tools first, and then less-used tools later.
+- Consideration of graphical clients: The book only considers the original Linux command-line client. This guide not only provides command-line syntax, but it also allows users of graphical clients to navigate them.
+- Pragmatic organization: This guide introduces the most-needed concepts and tools first, and then less-used tools later.
 
 This guide goes step by step. At each step new concepts are introduced, and later steps depend on the concepts introduced in previous steps. This means you will most likely have to read this guide in order.
 
@@ -38,14 +38,17 @@ The command-line syntax is placed at the end of each section so that you can ski
 (If you are using a graphical client, you can skip this subsection.)
 
 The basic command-line syntax is:
+
     git [subcommand] [options]
 
 Commands generally must be run when the terminal working directory is somewhere within the repository directory, otherwise Git will say `Not a Git repository`.
 
 To get help on a subcommand:
+
     git help [subcommand]
 
 Or:
+
     man git-[subcommand]
 
 You can also use the help commands to get the full syntax, since this guide will only cover the most-used options.
@@ -65,20 +68,23 @@ There are two ways to create a repository: initializing and cloning.
 Initializing basically means making a new, empty repository. Decide on a directory where you want to store it, and create a new repository in that directory. You can also create a new repository in a directory that already has files you're working on. That way it'll be easier to start tracking them. (It'll be easier, but they're not being tracked just yet.)
 
 Graphical clients:
+
 Graphical clients should have an option that reads "New" or "Init".
 
 Command-line syntax:
+
     git init
 
 ### Adding to an Existing Project: Clone
 
 Cloning means taking an existing repository and copying it to your system. Most likely it will be over a network or online (but, the Internet is a network, right?), but it could also be in another directory on your system.
 
-If the repository is over a network, you should have a URL to it. Most likely it starts with either http:, https:, or ssh:. HTTPS may require authentication, such as a password. SSH requires some set-up, but that is beyond the scope of this guide.
+If the repository is over a network, you should have a URL to it. Most likely it starts with either `http:`, `https:`, or `ssh:`. HTTPS may require authentication, such as a password. SSH requires some set-up, but that is beyond the scope of this guide.
 
 If you clone a repository, keep in mind that the repository will actually be placed in a subdirectory of the directory you specify. The name of this subdirectory will be determined automatically based on the URL or the path, or it may be specified if your graphical client has this option.
 
 Command-line syntax:
+
     git clone [repository] [directory]
 
 This creates a repository within the current working directory. The `[repository]` option is the URL to a repository across as network, or the filesystem path to a local repository. The `[directory]` option is the name of the subdirectory; if it is not specified, the name will be determined automatically.
@@ -92,6 +98,7 @@ Your name and e-mail address will appear alongside your changes. If you share yo
 Graphical clients make it easy for you to set up these options. You can set them for the individual repository, or for your whole user account on your computer. This is useful if you have a project for an employer as well as personal projects: You can use a company e-mail address for the repository for the company project, and a personal e-mail address for all other projects (perhaps in your user configuration).
 
 Command-line syntax:
+
     git config [scope] [config-option] [value]
 
 The `[scope]` option can be `--global` or `--system`, among others. If it is left out, the configuration will be set on the repository. The `--global` option indicates user configuration, and `--system` indicates system configuration (which may require administrator/superuser access).
@@ -104,7 +111,7 @@ A repository is a collection of files, and not just the files you work on for yo
 
 If you navigate to the directory where you initialized a repository, it looks about the same. All your existing files are there, or there are no files as before. If you cloned a repository, there are the files of the project, but no indication of any history.
 
-However, if you look at the hidden files in that directory, you will find a directory called ".git". This directory is the core of the repository. It holds files for all the history and everything else Git needs to work. If you navigate into it, you'll find quite a few things you don't understand. But Git understands them, and you shouldn't try to work with these files directly.
+However, if you look at the hidden files in that directory, you will find a directory called `.git`. This directory is the core of the repository. It holds files for all the history and everything else Git needs to work. If you navigate into it, you'll find quite a few things you don't understand. But Git understands them, and you shouldn't try to work with these files directly.
 
 The files you should work with are the files in the main directory of the repository. Appropriately enough, this is called the "working directory", or the "working area". This is where you make your changes. It's also where you compile your code (if it needs to be compiled) and run tests, just as if you didn't use Git at all. Git keeps everything it needs hidden from view in the ".git" directory.
 
@@ -117,6 +124,7 @@ New files are usually called "untracked" because their histories are not yet bei
 If you've renamed a file, Git will usually show the old filename as "deleted" and the new filename as "untracked".
 
 Graphical clients:
+
 A graphical client will show you what changes you made. (You might have to select a "Refresh" or "Rescan" option to see all of them.)
 
 The specific changes to each file might be shown in a separate area called "Diff" (short for "difference"). (Keep in mind that this generally only works for text files.) These changes may be presented in "unified diff" format:
@@ -131,6 +139,7 @@ The specific changes to each file might be shown in a separate area called "Diff
      Changed lines will generally have the old line "removed" and the new line "added."
 
 Command-line syntax:
+
     git status
     git diff [file]
 
@@ -145,9 +154,11 @@ You've made some changes, but now you have to tell Git that you want to record t
 You can pick what to stage quite precisely. You can stage changes in files, deleted files, and added ("untracked") files. You can even stage only certain lines or sections in a file.
 
 Graphical clients:
+
 Graphical clients have various ways of allowing you to stage changes.
 
 Command-line syntax:
+
     git add [file]
     git add -i
     git reset HEAD [file]
@@ -172,16 +183,18 @@ The first line of the message should be a short summary of your changes. People 
 (Note: You might see an option in a graphical client called "Signoff". This adds a line that reads `Signed-off-by: Your Name <youremail@example.com>`. Even though your name and e-mail address are already recorded separately, the signoff becomes significant when commits are passed around between different people for approval before they make their way into the repository.)
 
 Command-line syntax:
+
     git commit [options]
 
 The `-a` or `--all` option automatically stages all changes (additions, modifications, and deletions) before committing. This means that you can commit without having to go through the staging process yourself, but it also means you might commit some things you didn't mean to commit. There are ways to recover from that, but still use with caution.
 
 There are multiple ways to specify a commit message:
--The `-m [message]` or `--message=[message]` option uses the text in `[message]` as the commit message. This is recommended only for very small changes, since you can only fit a short message into this option. If you made more changes, consider another option to specify the message.
--The `-F [file]` or `--file=[file]` option takes the contents of the file in `[file]` as the commit message.
--The `-e` or `--edit` option opens a text editor for you to add a message.
--(The `-s` or `--signoff` option adds a sign-off line to the message.)
--The `--allow-empty-message` option tells Git to allow you to commit without a message. This is not recommended, but it's provided for automated programs that interact with the Git command-line program.
+
+- The `-m [message]` or `--message=[message]` option uses the text in `[message]` as the commit message. This is recommended only for very small changes, since you can only fit a short message into this option. If you made more changes, consider another option to specify the message.
+- The `-F [file]` or `--file=[file]` option takes the contents of the file in `[file]` as the commit message.
+- The `-e` or `--edit` option opens a text editor for you to add a message.
+- (The `-s` or `--signoff` option adds a sign-off line to the message.)
+- The `--allow-empty-message` option tells Git to allow you to commit without a message. This is not recommended, but it's provided for automated programs that interact with the Git command-line program.
 
 ## Viewing History: Log and Show
 
@@ -192,6 +205,7 @@ Each commit has an ID number, which is 40 hexadecimal digits (0-9 and a-f). This
 (Technical Note: The ID number is actually the SHA-1 hash of the message, the state of the files, the name and e-mail address of the person, and so on.)
 
 Command-line syntax:
+
     git log
     git show [ID]
 
@@ -256,9 +270,11 @@ So, the working directory matches commit 6, and the changes in commit 7 are remo
                           - - - 8 <- test <- HEAD
 
 Graphical clients:
+
 Graphical clients have various ways to create and checkout branches. Oftentimes there will be an option to checkout the branch immediately after creating it.
 
 Command-line syntax:
+
     git branch
     git branch [newbranch] [startpoint]
     git checkout [branch]
