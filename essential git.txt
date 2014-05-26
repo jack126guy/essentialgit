@@ -225,7 +225,7 @@ Most of the time, HEAD points to a branch. When you make a new commit, Git moves
 
 HEAD still points to "master", but "master" now points to commit 6.
 
-But the beauty of Git and many other VCSes is that your work doesn't have to be this linear. You can have multiple lines of work. In sofware development, most work is done on different branches, and "master" is reserved for code that is tested, finalized, and released.
+But the beauty of Git and many other VCSes is that your work doesn't have to be this linear. You can have multiple lines of work. In software development, most work is done on different branches, and "master" is reserved for code that is tested, finalized, and released.
 
 You can create a new branch that points to the same commit as "master". Let's call it "test". The result looks like this:
 
@@ -247,7 +247,7 @@ Of course, this is probably not what you want; most likely, you want to work on 
                      \
                       <- test <- HEAD
 
-Notice now that HEAD points to a different commit than before. This means that new work will be based on a different state of files. As a result, Git has to change the files in the working directory to match the state of this different commit. (For this reason Git will normally not allow you to switch branches if there are any uncommited changes.)
+Notice now that HEAD points to a different commit than before. This means that new work will be based on a different state of files. As a result, Git has to change the files in the working directory to match the state of this different commit. (For this reason Git will normally not allow you to switch branches if there are any uncommitted changes.)
 
 So, the working directory matches commit 6, and the changes in commit 7 are removed from the working directory. A new commit will have commit 6 as a parent. This new commit looks like this:
 
@@ -292,7 +292,7 @@ And then you do some work and commit on the "stuff" branch:
 
 After some consultation and testing, you decide that this work is ready to be moved into the "master" branch. This process is called "merging" the "stuff" branch into the "master" branch.
 
-Note: It is recommended that you not have any uncommited changes in your working directory before starting this process.
+Note: It is recommended that you not have any uncommitted changes in your working directory before starting this process.
 
 First you will have to checkout "master", because that is the branch where you want to put new changes:
 
@@ -387,7 +387,7 @@ The simplest way to resolve a conflict, though it isn't really a resolution, is 
 
 Another way to resolve this is to take one version and get rid of the changes in the other. The version in the branch you have checked out ("master" in our example) is called "ours", and the version in the other branch ("test" in our example) is called "theirs". To resolve a conflict in this way, "checkout" the version you want and then stage it. (Note that this is a different use of "checkout".) Graphical clients may have a different way of resolving a conflict like this.
 
-A "merge tool" can also help you resolve conflicts by showing the conflicting sections and lettting you decide on the final product. But if you don't have one, you'll have to manually edit the file in the working directory. If you open it, it will look something like this:
+A "merge tool" can also help you resolve conflicts by showing the conflicting sections and letting you decide on the final product. But if you don't have one, you'll have to manually edit the file in the working directory. If you open it, it will look something like this:
 
 This project is to explore how to use Git,
 <<<<<<< HEAD:README.txt
@@ -416,7 +416,7 @@ Command-line syntax:
 git merge --abort
 git mergetool
 
-The "git merge --abort" command aborts a conflicting merge and resets the repository to its state befoe the merge.
+The "git merge --abort" command aborts a conflicting merge and resets the repository to its state before the merge.
 The "git mergetool" command starts a merge tool if one is installed.
 
 =Setting Up Other Repositories: Remotes
