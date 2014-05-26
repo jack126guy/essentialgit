@@ -227,13 +227,13 @@ This means you only have one line of work, that is, one branch. Every repository
 
     1 - 2 - 3 - 4 - 5 <- master
 
-The "master" branch points to commit 5.
+The `master` branch points to commit 5.
 
-When you make a new commit, it will be based on the work that already exists on the `master` branch. That is, it will be based on the commit to which the "master" branch is pointing. This base has a special name, `HEAD`, which looks like this:
+When you make a new commit, it will be based on the work that already exists on the `master` branch. That is, it will be based on the commit to which the `master` branch is pointing. This base has a special name, `HEAD`, which looks like this:
 
     1 - 2 - 3 - 4 - 5 <- master <- HEAD
 
-Most of the time, HEAD points to a branch. When you make a new commit, Git moves HEAD and the branch to which it is pointing forward to the new commit. After another commit, HEAD and `master` look like this:
+Most of the time, `HEAD` points to a branch. When you make a new commit, Git moves HEAD and the branch to which it is pointing forward to the new commit. After another commit, `HEAD` and `master` look like this:
 
     1 - 2 - 3 - 4 - 5 - 6 <- master <- HEAD
 
@@ -290,7 +290,7 @@ The `git checkout -b [branch] [startpoint]` command creates a new branch and the
 
 ## Merging
 
-Let's say created and checked out a new branch at commit 7, called "stuff":
+Let's say created and checked out a new branch at commit 7, called `stuff`:
 
     1 - 2 - 3 - 4 - 5 - 6 - 7 <- stuff <- HEAD
                          \   \
@@ -306,69 +306,75 @@ And then you do some work and commit on the `stuff` branch:
                            \
                             - 8 <- test
 
-After some consultation and testing, you decide that this work is ready to be moved into the "master" branch. This process is called "merging" the "stuff" branch into the "master" branch.
+After some consultation and testing, you decide that this work is ready to be moved into the "master" branch. This process is called "merging" the `stuff` branch into the `master` branch.
 
-Note: It is recommended that you not have any uncommited changes in your working directory before starting this process.
+*Note*: It is recommended that you not have any uncommited changes in your working directory before starting this process.
 
-First you will have to checkout "master", because that is the branch where you want to put new changes:
+First you will have to checkout `master`, because that is the branch where you want to put new changes:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- stuff
-                     \   \
-                      \   <- master <- HEAD
-                       \
-                        - 8 <- test
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- stuff
+                         \   \
+                          \   <- master <- HEAD
+                           \
+                            - 8 <- test
 
-Then you tell Git to merge "stuff". Because "master" does not have any work that is not also in "stuff", this merge is known as a "fast-forward". Git simply moves the "master" branch up to where the "stuff" branch is, like this:
+Then you tell Git to merge `stuff`. Because `master` does not have any work that is not also in `stuff`, this merge is known as a "fast-forward". Git simply moves the `master` branch up to where the `stuff` branch is, like this:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- stuff
-                     \           \
-                      \           <- master <- HEAD
-                       \
-                        - 8 <- test
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- stuff
+                         \           \
+                          \           <- master <- HEAD
+                           \
+                            - 8 <- test
 
-Now you can delete "stuff". This is a common way of working with branches. After work in other branches is completed, those branches are merged into "master" and then deleted, because "master" now contains the work. The result looks like this:
+Now you can delete `stuff`. This is a common way of working with branches. After work in other branches is completed, those branches are merged into `master` and then deleted, because `master` now contains the work. The result looks like this:
 
 1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- master <- HEAD
                      \
                       - - 8 <- test
 
-But now let's say that you also want to move the work in "test" into "master". This is not so simple because "master" has work that is not in "test". Git deals with this by looking at the last commits in each branch (commit 10 and commit 8), as well as the "common ancestor" of the two branches (commit 6). It then combines the work in a new commit, called a merge commit with two parents. The result looks like this:
+But now let's say that you also want to move the work in `test` into `master`. This is not so simple because `master` has work that is not in `test`. Git deals with this by looking at the last commits in each branch (commit 10 and commit 8), as well as the "common ancestor" of the two branches (commit 6). It then combines the work in a new commit, called a merge commit with two parents. The result looks like this:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- master <- HEAD
-                     \               /
-                      - - 8 - - - - -
-                           \
-                            <- test
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- master <- HEAD
+                         \               /
+                          - - 8 - - - - -
+                               \
+                                <- test
 
-Notice that "test" is still pointing at commit 8. Only the branch you have checked out ("master" in this case) is moved forward. As a rule, you should checkout the branch where you want to include new changes. After a merge, the other branch stays where it is.
+Notice that `test` is still pointing at commit 8. Only the branch you have checked out (`master` in this case) is moved forward. As a rule, you should checkout the branch where you want to include new changes. After a merge, the other branch stays where it is.
 
-You might have noticed the phrasing before: "merge 'test' into 'master'". This phrasing is important. "Merge B into A" means checking out A. However, "merge A into B" means checking out B.
+You might have noticed the phrasing before: "merge `test` into `master`". This phrasing is important. "Merge `B` into `A`" means checking out `A`. However, "merge `A` into `B`" means checking out `B`.
 
-In this case you can also delete "test" because "master" now contains the changes on that branch. This is consistent with the practice of working on a branch, merging it, and then deleting it. Git can find the work on both branches by following both parents of the merge commit.
+In this case you can also delete `test` because `master` now contains the changes on that branch. This is consistent with the practice of working on a branch, merging it, and then deleting it. Git can find the work on both branches by following both parents of the merge commit.
 
 It is possible to merge more than two branches at the same time, in what is known as an "octopus merge" (though you probably won't have eight in total!). The merge commit in this case will have more than two parents:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - - 12 <- master <- HEAD
-                     \       \        / /
-                      \       - - - 11 /
-                       \              /
-                        - 8 - - - - -/
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - - 12 <- master <- HEAD
+                         \       \        / /
+                          \       - - - 11 /
+                           \              /
+                            - 8 - - - - -/
 
 But this is often not recommended because of conflicts, which will be discussed below. A better practice is to merge each branch individually.
 
 Command-line syntax:
-git merge [options] [branch]
 
-An octopus merge can be done by listing multiple branches separated by spaces in the "[branch]" option.
+    git merge [options] [branch]
 
-The "--no-commit" option does not make the merge commit. Git will combine the changes and stage them, but it will let you look around and possibly make changes before committing.
-The "--abort" option aborts a merge if it is not yet committed. Git will restore the repository to where it was before.
-The "-m [message]" option uses the text in "[message]" as the commit message. Normally Git creates an automatic message for you, but "-m" replaces the automatic message.
-The "-e" or "--edit" option opens a text editor for you to add a commit message.
-The "--ff-only" option tells Git not to peform the merge if it is not a fast-forward.
-The "--no-ff" option creates a merge commit even if the merge is a fast-forward.
+An octopus merge can be done by listing multiple branches separated by spaces in the `[branch]` option.
 
-=Merge Conflicts
+The `--no-commit` option does not make the merge commit. Git will combine the changes and stage them, but it will let you look around and possibly make changes before committing.
+
+The `--abort` option aborts a merge if it is not yet committed. Git will restore the repository to where it was before.
+
+The `-m [message]` option uses the text in `[message]` as the commit message. Normally Git creates an automatic message for you, but `-m` replaces the automatic message.
+
+The `-e` or `--edit` option opens a text editor for you to add a commit message.
+
+The `--ff-only` option tells Git not to peform the merge if it is not a fast-forward.
+
+The `--no-ff` option creates a merge commit even if the merge is a fast-forward.
+
+## Merge Conflicts
 
 As shown above, fast-forward merges are very simple. Most merges that are not fast-forwards are also fairly simple. However, sometimes problems come up that might take some work and ingenuity to solve.
 
@@ -382,60 +388,62 @@ If different files were changed in commit 8 than in commits 7, 9, and 10, mergin
 
 Problems come up if the same files were changed in the same places. This situation is called a "merge conflict" (or simply a "conflict").
 
-A good way to see what happens is to take an example. Let's say there's a file called "README.txt". After commit 6, the common ancestor of "master" and "test", it looks like this:
+A good way to see what happens is to take an example. Let's say there's a file called `README.txt`. After commit 6, the common ancestor of `master` and `test`, it looks like this:
 
-This project is to explore how to use Git,
-a version control system.
+    This project is to explore how to use Git,
+    a version control system.
 
-In the "test" branch (after commit 8), it was changed to this:
+In the `test` branch (after commit 8), it was changed to this:
 
-This project is to explore how to use Git,
-a version control system (VCS).
+    This project is to explore how to use Git,
+    a version control system (VCS).
 
-In the "master" branch (after commits 7, 9, and 10), it was changed to this:
+In the `master` branch (after commits 7, 9, and 10), it was changed to this:
 
-This project is to explore how to use Git,
-a version control system, or revision control system.
+    This project is to explore how to use Git,
+    a version control system, or revision control system.
 
-The second line differs from the common ancestor, but in different ways. If you try to merge "test" into "master", Git will stop the merge and alert you to a conflict. You will have to edit any conflicting files to a final product, and then stage them before you commit. (Files without conflicts will already be staged for you.) Although Git automatically lists the conflicting files in the commit message, you should also use the message to explain the conflicts and how you resolved them as well.
+The second line differs from the common ancestor, but in different ways. If you try to merge `test` into `master`, Git will stop the merge and alert you to a conflict. You will have to edit any conflicting files to a final product, and then stage them before you commit. (Files without conflicts will already be staged for you.) Although Git automatically lists the conflicting files in the commit message, you should also use the message to explain the conflicts and how you resolved them as well.
 
 The simplest way to resolve a conflict, though it isn't really a resolution, is to abort the merge. Git will restore the repository to where it was before. Note that this means that any non-conflicting changes will not be merged, either.
 
-Another way to resolve this is to take one version and get rid of the changes in the other. The version in the branch you have checked out ("master" in our example) is called "ours", and the version in the other branch ("test" in our example) is called "theirs". To resolve a conflict in this way, "checkout" the version you want and then stage it. (Note that this is a different use of "checkout".) Graphical clients may have a different way of resolving a conflict like this.
+Another way to resolve this is to take one version and get rid of the changes in the other. The version in the branch you have checked out (`master` in our example) is called "ours", and the version in the other branch (`test` in our example) is called "theirs". To resolve a conflict in this way, "checkout" the version you want and then stage it. (Note that this is a different use of "checkout".) Graphical clients may have a different way of resolving a conflict like this.
 
 A "merge tool" can also help you resolve conflicts by showing the conflicting sections and lettting you decide on the final product. But if you don't have one, you'll have to manually edit the file in the working directory. If you open it, it will look something like this:
 
-This project is to explore how to use Git,
-<<<<<<< HEAD:README.txt
-a version control system (VCS).
-=======
-a version control system, or revision control system.
->>>>>>> test:README.txt
+    This project is to explore how to use Git,
+    <<<<<<< HEAD:README.txt
+    a version control system (VCS).
+    =======
+    a version control system, or revision control system.
+    >>>>>>> test:README.txt
 
-Conflicting sections are marked with "<<<<<<<", "=======", and ">>>>>>>". "<<<<<<<" marks the beginning of the section, "=======" separates the two versions, and ">>>>>>>" marks the end of the section.
+Conflicting sections are marked with `<<<<<<<`, `=======`, and `>>>>>>>`. `<<<<<<<` marks the beginning of the section, `=======` separates the two versions, and `>>>>>>>` marks the end of the section.
 
 You can look at each version and put them together. (Remember to remove those markers when you're done!) In this example, a final result might be:
 
-This project is to explore how to use Git,
-a version control system (VCS),
-also known as a revision control system.
+    This project is to explore how to use Git,
+    a version control system (VCS),
+    also known as a revision control system.
 
 You can then stage this file and commit.
 
 There are two cases of merge conflicts that are perhaps not obvious.
 
-The first case concerns files that are not plain text (these are also known as "binary files"). If Git detects a conflict in a binary file, it will not add any conflict markers. Instead, it will keep the version as it was at HEAD. You can use the ours/theirs method, or run a merge tool. Some merge tools create files such as "[conflicedfile].HEAD" and "[conflictingfile].REMOTE", which contain the different versions, in your working directory to help you combine changes.
+The first case concerns files that are not plain text (these are also known as "binary files"). If Git detects a conflict in a binary file, it will not add any conflict markers. Instead, it will keep the version as it was at `HEAD`. You can use the ours/theirs method, or run a merge tool. Some merge tools create files such as `[conflicedfile].HEAD` and `[conflictingfile].REMOTE`, which contain the different versions, in your working directory to help you combine changes.
 
-The second case concerns octopus merges. Trying to imagine what the conflict markers would look like is difficult. Actually, this is why octopus merges are not recommended. In the case of a conflict, Git will abort the merge entirely (and rather sternly tell you that you "should not be doing an Octopus").
+The second case concerns octopus merges. Trying to imagine what the conflict markers would look like is difficult. Actually, this is why octopus merges are not recommended. In the case of a conflict, Git will abort the merge entirely (and rather sternly tell you that you `should not be doing an Octopus`).
 
 Command-line syntax:
-git merge --abort
-git mergetool
 
-The "git merge --abort" command aborts a conflicting merge and resets the repository to its state befoe the merge.
-The "git mergetool" command starts a merge tool if one is installed.
+    git merge --abort
+    git mergetool
 
-=Setting Up Other Repositories: Remotes
+The `git merge --abort` command aborts a conflicting merge and resets the repository to its state befoe the merge.
+
+The `git mergetool` command starts a merge tool if one is installed.
+
+## Setting Up Other Repositories: Remotes
 
 Chances are that you're not working alone. Remember that every contributor has a repository. So in order to transfer your changes to others, you will have to work with "remote repositories" (or simply "remotes"). A remote may be another repository on your system, or (more likely) a repository available through a network such as the Internet.
 
@@ -445,117 +453,124 @@ Note: If you're working with a repository over a network, you may need some sort
 
 The first step in working with remotes is to "add" it to your repository. This means creating a record of the URL or path, as well as a name. The name should be descriptive of its source, such as "company", "sourceforge", or "github". (SourceForge and GitHub are popular hosting sites for Git repositories.)
 
-(If you cloned from a repository, Git already added a remote called "origin", which refers to the repository from which you cloned. Git also already did a lot of the setup, which will be noted in each subsection.)
+(If you cloned from a repository, Git already added a remote called `origin`, which refers to the repository from which you cloned. Git also already did a lot of the setup, which will be noted in each subsection.)
 
 Command-line syntax:
-git remote
-git remote add [name] [repository]
-git remote rm [name]
-git remote set-url [name] [repository]
 
-The plain "git remote" command lists the remotes currently recorded.
-The "git remote add" command adds a new remote. The "[name]" option is the name of the remote used in your repository, and "[repository]" is the URL or path to the actual repository.
-The "git remote rm" command removes a remote; "[name]" is the name of the remote to remove.
-The "git remote set-url" command reassigns a remote to a new URL or path. (The command is called "set-url", but a filesystem path works, too.)
+    git remote
+    git remote add [name] [repository]
+    git remote rm [name]
+    git remote set-url [name] [repository]
 
-==Getting Commits from Remotes: Fetch
+The plain `git remote` command lists the remotes currently recorded.
+
+The `git remote add` command adds a new remote. The `[name]` option is the name of the remote used in your repository, and `[repository]` is the URL or path to the actual repository.
+
+The `git remote rm` command removes a remote; `[name]` is the name of the remote to remove.
+
+The `git remote set-url` command reassigns a remote to a new URL or path. (The command is called `set-url`, but a filesystem path works, too.)
+
+### Getting Commits from Remotes: Fetch
 
 The next step is getting any commits that are already in the repository. This process is known as "fetching".
 
 Some interesting things happen when you fetch.
 
-Suppose this is a remote repository that you've called "ourproject":
+Suppose this is a remote repository that you've called `ourproject`:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- master <- HEAD
-                     \               /
-                      - - 8 - - - - -
-                           \
-                            <- test
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- master <- HEAD
+                         \               /
+                          - - 8 - - - - -
+                               \
+                                <- test
 
 And this is your repository:
 
-1 - 2 - 3 - 4 - 5 <- master <- HEAD
+    1 - 2 - 3 - 4 - 5 <- master <- HEAD
 
 If these repositories are for the same project, commits 1-5 will be the same.
 
 After you fetch, your repository will look like this:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- ourproject/master
-                 \   \               /
-                  \   - - 8 - - - - -
-                   \       \
-                    \       <- ourproject/test
-                     \
-                      <- master <- HEAD
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- ourproject/master
+                     \   \               /
+                      \   - - 8 - - - - -
+                       \       \
+                        \       <- ourproject/test
+                         \
+                          <- master <- HEAD
 
 Git combined the commits from the remote with the ones in your repository. Git figured out that the commits in your repository are the same as the ones in the remote, so Git combined the commits it fetched with the commits you already have.
 
-Notice that Git created new branches in your repository that start with "ourproject/". These are called "remote-tracking branches". These reflect where the branches are on the remote when you last fetched from it. Git treats these branches differently; you can't checkout these branches in the normal way, and you can't delete them in the normal way either.
+Notice that Git created new branches in your repository that start with `ourproject/`. These are called "remote-tracking branches". These reflect where the branches are on the remote when you last fetched from it. Git treats these branches differently; you can't checkout these branches in the normal way, and you can't delete them in the normal way either.
 
-(If you cloned from a repository, Git has already fetched commits from it and created the remote-tracking branches starting with "origin/".)
+(If you cloned from a repository, Git has already fetched commits from it and created the remote-tracking branches starting with `origin/`.)
 
 Most likely, the remote includes commits from other contributors, so you should include them in your own work. Git won't let you put your work into the remote if it doesn't include other contributors' work as well. To include their work, merge "ourproject/master" into "master". Afterwards, your repository will look like this:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- ourproject/master
-                     \               / \
-                      - - 8 - - - - -   <- master <- HEAD
-                           \
-                            <- ourproject/test
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- ourproject/master
+                         \               / \
+                          - - 8 - - - - -   <- master <- HEAD
+                               \
+                                <- ourproject/test
 
-Notice how the merge was a fast-forward, because your "master" has no work that is not also in "ourproject/master". When you merge remote-tracking branches, they're just like any other merges. (Merge commits can be created, and conflicts can come up.)
+Notice how the merge was a fast-forward, because your `master` has no work that is not also in `ourproject/master`. When you merge remote-tracking branches, they're just like any other merges. (Merge commits can be created, and conflicts can come up.)
 
 Oftentimes branches are removed from the remote because they've been merged. Git doesn't automatically remove the remote-tracking branches, though. To do this, you should be able to specify an option to "prune" the remote-tracking branches when you fetch.
 
 Command-line syntax:
-git fetch [-p] [remote] [refspec]
-git remote prune [remote]
 
-The "[remote]" option is the name of the remote, and "[refspec]" is the branches to fetch. It can get complex, but the simple case is just a list of branches separated by spaces. If "[refspec]" is omitted, Git will fetch all branches.
+    git fetch [-p] [remote] [refspec]
+    git remote prune [remote]
 
-The optional "-p" option (shown in brackets in the syntax) tells Git to prune the remote-tracking branches whose branches no longer exist in the remote repository. You can also run "git remote prune" to do this.
+The `[remote]` option is the name of the remote, and `[refspec]` is the branches to fetch. It can get complex, but the simple case is just a list of branches separated by spaces. If `[refspec]` is omitted, Git will fetch all branches.
 
-==Getting and Merging Commits from Remotes: Pull and Tracking
+The optional `-p` option (shown in brackets in the syntax) tells Git to prune the remote-tracking branches whose branches no longer exist in the remote repository. You can also run `git remote prune` to do this.
+
+## Getting and Merging Commits from Remotes: Pull and Tracking
 
 "Pulling" is an automatic process that fetches and then merges in one step. It's a bit strange: Git fetches the commits from all branches (and updates the corresponding remote-tracking branches), but it only merges the branch to which HEAD points. The appropriate remote-tracking branch is merged in.
 
-Wait, "appropriate" remote-tracking branch? In our example we merged "ourproject/master" into "master". They have the same name (at the end, at least). But what if you had two remotes, both with "master" branches? Then you'd have "ourproject/master" and also, say, "other/master". Which would be merged?
+Wait, "appropriate" remote-tracking branch? In our example we merged `ourproject/master` into `master`. They have the same name (at the end, at least). But what if you had two remotes, both with `master` branches? Then you'd have `ourproject/master` and also, say, `other/master`. Which would be merged?
 
-If your repository is not set up, the answer is neither. As a matter of fact, Git won't automatically merge "ourproject/master" even if it is the only remote-tracking branch with the name "master".
+If your repository is not set up, the answer is neither. As a matter of fact, Git won't automatically merge `ourproject/master` even if it is the only remote-tracking branch with the name `master`.
 
 To set this up, you need to set your branch to "track" this remote-tracking branch. Yes, there are two uses of the term "track". Your branches track remote-tracking branches, and the remote-tracking branches track the actual branches on the remote.
 
 This is actually a good way to think about it:
 
-your branches --(track)--> remote-tracking branches --(track)--> branches on remote
+    your branches --(track)--> remote-tracking branches --(track)--> branches on remote
 
 When you pull, the commits move in the opposite direction, like this:
 
-your branches <--(merge into)-- remote-tracking branches <--(merge into)-- branches on remote
+    your branches <--(merge into)-- remote-tracking branches <--(merge into)-- branches on remote
 
-Setting up your branches to track remote-tracking branches automates the pulling process, and it also helps you work with multiple remotes. Remember "ourproject/master" and "other/master"? You could set your "master" branch to track "ourproject/master" and another branch called "othermaster" to track "other/master". That way you can pull from both remotes and make sure the merge process goes the way you want.
+Setting up your branches to track remote-tracking branches automates the pulling process, and it also helps you work with multiple remotes. Remember `ourproject/master` and `other/master`? You could set your `master` branch to track `ourproject/master` and another branch called `othermaster` to track `other/master`. That way you can pull from both remotes and make sure the merge process goes the way you want.
 
-(If you cloned from a repository, Git already set up your branches to track all the remote-tracking branches from "origin". You can change this tracking if you'd like.)
+(If you cloned from a repository, Git already set up your branches to track all the remote-tracking branches from `origin`. You can change this tracking if you'd like.)
 
 Command-line syntax:
-git pull [remote] [refspec]
-git pull --all [refspec]
-git branch {-u [upstream] | --set-upstream-to=[upstream]} [branch]
 
-The "git pull" command pulls from a remote. The "[remote]" option is the name of the remote. Use "--all" instead of the name of a remote to pull from all remotes. The "[refspec]" option is the same as for fetching. That is, it can get complex, but the simple case is a list of branches separated by spaces, though it can get more complex; if "[refspec]" is omitted, Git will pull all branches from the given remote.
+    git pull [remote] [refspec]
+    git pull --all [refspec]
+    git branch {-u [upstream] | --set-upstream-to=[upstream]} [branch]
 
-The "git branch" command with the options shown sets up tracking. It tells the branch named in "[branch]" (one of your branches) to track "[upstream]" (a remote-tracking branch). The "-u [upstream]" and "--set-upstream-to=[upstream]" options mean the same thing; you don't have to include both.
+The `git pull` command pulls from a remote. The `[remote]` option is the name of the remote. Use `--all` instead of the name of a remote to pull from all remotes. The `[refspec]` option is the same as for fetching. That is, it can get complex, but the simple case is a list of branches separated by spaces, though it can get more complex; if `[refspec]` is omitted, Git will pull all branches from the given remote.
 
-==Putting Changes into Remotes: Push
+The `git branch` command with the options shown sets up tracking. It tells the branch named in `[branch]` (one of your branches) to track `[upstream]` (a remote-tracking branch). The `-u [upstream]` and `--set-upstream-to=[upstream]` options mean the same thing; you don't have to include both.
+
+## Putting Changes into Remotes: Push
 
 After you've done your work, it's time to put your work into the remote repository. This is called "pushing" to the repository.
 
 Your branches tracking the remote-tracking branches also determine where your work will go when you push:
 
-your branches --(merge into)--> remote-tracking branches --(merge into)--> branches on remote
+    your branches --(merge into)--> remote-tracking branches --(merge into)--> branches on remote
 
 The merges in the diagram must be fast-forwards. Your branches must include all the work in the remote repository. If they don't, Git will refuse to push under normal circumstances. Even if you've merged the remote-tracking branches, the actual branches may have new work. So you might have to pull (fetch and merge) before you push.
 
 Command-line syntax:
-git push [remote] [refspec]
 
-The "[remote]" option is the name of the remote, and "[refspec]" is the branches to push. It can get complex, but the simple case is just a list of branches separated by spaces. If "[refspec]" is omitted, Git will push all branches to the given remote.
+    git push [remote] [refspec]
+
+The `[remote]` option is the name of the remote, and `[refspec]` is the branches to push. It can get complex, but the simple case is just a list of branches separated by spaces. If `[refspec]` is omitted, Git will push all branches to the given remote.
