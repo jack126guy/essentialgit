@@ -63,7 +63,7 @@ A repository lies on your system. Instead of having a single repository that eve
 
 There are two ways to create a repository: initializing and cloning.
 
-###Starting Fresh: Initialize ("Init", "New Repository")
+### Starting Fresh: Initialize ("Init", "New Repository")
 
 Initializing basically means making a new, empty repository. Decide on a directory where you want to store it, and create a new repository in that directory. You can also create a new repository in a directory that already has files you're working on. That way it'll be easier to start tracking them. (It'll be easier, but they're not being tracked just yet.)
 
