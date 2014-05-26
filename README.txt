@@ -1,3 +1,0 @@
-This is my guide to Git for beginners who may not have experience with version/revision control systems and who may be using graphical clients.
-
-The latest version is version 0.2, which contains what I've written in 2013 (covering most of the basics) and proper license information. Version 1.0 (planned for 31 August 2014) will cover more tools, such as revision modification (rebasing, etc.).
