@@ -380,9 +380,9 @@ As shown above, fast-forward merges are very simple. Most merges that are not fa
 
 Let's look at the repository before the "test" branch was merged:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- master <- HEAD
-                     \
-                      - - 8 <- test
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- master <- HEAD
+                         \
+                          - - 8 <- test
 
 If different files were changed in commit 8 than in commits 7, 9, and 10, merging is easy: Git simply combines the new versions of the files. If the same files were changed, but in different places, Git combines those changes.
 
