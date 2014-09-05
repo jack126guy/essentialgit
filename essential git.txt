@@ -185,7 +185,7 @@ There are multiple ways to specify a commit message:
 
 =Viewing History: Log and Show
 
-Graphical clients usually have visualizer that shows commits and their parents with lines. Clicking on a commit shows the message and the changes from the parent to that commit.
+Graphical clients usually have a visualizer that shows commits and their parents with lines. Clicking on a commit shows the message and the changes from the parent to that commit.
 
 Each commit has an ID number, which is 40 hexadecimal digits (0-9 and a-f). This ID number is used to refer to the commit in a variety of situations. Don't worry, you don't need to use the whole thing. Git lets you use the first four digits, as long as the ID is unique from that point. If it's not unique in the first four, you'll need to give more. Most projects will only need up to seven digits.
 
@@ -274,7 +274,7 @@ The "git checkout -b [branch] [startpoint]" command creates a new branch and the
 
 =Merging
 
-Let's say created and checked out a new branch at commit 7, called "stuff":
+Let's say you created and checked out a new branch at commit 7, called "stuff":
 
 1 - 2 - 3 - 4 - 5 - 6 - 7 <- stuff <- HEAD
                      \   \
