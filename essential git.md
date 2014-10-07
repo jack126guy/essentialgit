@@ -330,9 +330,9 @@ Then you tell Git to merge `stuff`. Because `master` does not have any work that
 
 Now you can delete `stuff`. This is a common way of working with branches. After work in other branches is completed, those branches are merged into `master` and then deleted, because `master` now contains the work. The result looks like this:
 
-1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- master <- HEAD
-                     \
-                      - - 8 <- test
+    1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- master <- HEAD
+                         \
+                          - - 8 <- test
 
 But now let's say that you also want to move the work in `test` into `master`. This is not so simple because `master` has work that is not in `test`. Git deals with this by looking at the last commits in each branch (commit 10 and commit 8), as well as the "common ancestor" of the two branches (commit 6). It then combines the work in a new commit, called a merge commit with two parents. The result looks like this:
 
