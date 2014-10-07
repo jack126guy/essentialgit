@@ -518,7 +518,7 @@ Most likely, the remote includes commits from other contributors, so you should 
 
 Notice how the merge was a fast-forward, because your `master` has no work that is not also in `ourproject/master`. When you merge remote-tracking branches, they're just like any other merges. (Merge commits can be created, and conflicts can come up.)
 
-Oftentimes branches are removed from the remote because they've been merged. Git doesn't automatically remove the remote-tracking branches, though. To do this, you should be able to specify an option to "prune" the remote-tracking branches when you fetch.
+Oftentimes branches are removed from the remote because they've been merged. Git doesn't automatically remove the remote-tracking branches from your repository, though. To do this, you should be able to specify an option to "prune" the remote-tracking branches when you fetch.
 
 Command-line syntax:
 
@@ -527,13 +527,13 @@ Command-line syntax:
 
 The `[remote]` option is the name of the remote, and `[refspec]` is the branches to fetch. It can get complex, but the simple case is just a list of branches separated by spaces. If `[refspec]` is omitted, Git will fetch all branches.
 
-The optional `-p` option (shown in brackets in the syntax) tells Git to prune the remote-tracking branches whose branches no longer exist in the remote repository. You can also run `git remote prune` to do this.
+The optional `-p` option (shown in brackets in the syntax) tells Git to prune the remote-tracking branches whose branches no longer exist in the remote repository. You can also run `git remote prune` to do this without fetching new commits.
 
 ## Getting and Merging Commits from Remotes: Pull and Tracking
 
-"Pulling" is an automatic process that fetches and then merges in one step. It's a bit strange: Git fetches the commits from all branches (and updates the corresponding remote-tracking branches), but it only merges the branch to which HEAD points. The appropriate remote-tracking branch is merged in.
+"Pulling" is an automatic process that fetches and then merges in one step. It's a bit strange: Git fetches the commits from all branches (and updates the corresponding remote-tracking branches), but it only merges the branch to which `HEAD` points. The appropriate remote-tracking branch is merged in.
 
-Wait, "appropriate" remote-tracking branch? In our example we merged `ourproject/master` into `master`. They have the same name (at the end, at least). But what if you had two remotes, both with `master` branches? Then you'd have `ourproject/master` and also, say, `other/master`. Which would be merged?
+Wait, "appropriate" remote-tracking branch? In our example we merged `ourproject/master` into `master`. They have the same name (at the end, at least), so it makes sense. But what if you had two remotes, both with `master` branches? Then you'd have `ourproject/master` and also, say, `other/master`. Which would be merged?
 
 If your repository is not set up, the answer is neither. As a matter of fact, Git won't automatically merge `ourproject/master` even if it is the only remote-tracking branch with the name `master`.
 
