@@ -105,6 +105,8 @@ The `[scope]` option can be `--global` or `--system`, among others. If it is lef
 
 The `[config-option]`'s you'll need are `user.name` and `user.email`.
 
+If `[value]` has spaces, you'll have to put it in quotation marks for it to work.
+
 ## The Working Directory
 
 A repository is a collection of files, and not just the files you work on for your project. But you might have some trouble finding those extra files for history and tracking.
@@ -198,7 +200,7 @@ There are multiple ways to specify a commit message:
 
 ## Viewing History: Log and Show
 
-Graphical clients usually have visualizer that shows commits and their parents with lines. Clicking on a commit shows the message and the changes from the parent to that commit.
+Graphical clients usually have a visualizer that shows commits and their parents with lines. Clicking on a commit shows the message and the changes from the parent to that commit.
 
 Each commit has an ID number, which is 40 hexadecimal digits (0-9 and a-f). This ID number is used to refer to the commit in a variety of situations. Don't worry, you don't need to use the whole thing. Git lets you use the first four digits, as long as the ID is unique from that point. If it's not unique in the first four, you'll need to give more. Most projects will only need up to seven digits.
 
@@ -239,7 +241,7 @@ Most of the time, `HEAD` points to a branch. When you make a new commit, Git mov
 
 `HEAD` still points to `master`, but `master` now points to commit 6.
 
-But the beauty of Git and many other VCSes is that your work doesn't have to be this linear. You can have multiple lines of work. In sofware development, most work is done on different branches, and `master` is reserved for code that is tested, finalized, and released.
+But the beauty of Git and many other VCSes is that your work doesn't have to be this linear. You can have multiple lines of work. In software development, most work is done on different branches, and `master` is reserved for code that is tested, finalized, and released.
 
 You can create a new branch that points to the same commit as `master`. Let's call it `test`. The result looks like this:
 
@@ -261,7 +263,7 @@ Of course, this is probably not what you want; most likely, you want to work on 
                          \
                           <- test <- HEAD
 
-Notice now that `HEAD` points to a different commit than before. This means that new work will be based on a different state of files. As a result, Git has to change the files in the working directory to match the state of this different commit. (For this reason Git will normally not allow you to switch branches if there are any uncommited changes.)
+Notice now that `HEAD` points to a different commit than before. This means that new work will be based on a different state of files. As a result, Git has to change the files in the working directory to match the state of this different commit. (For this reason Git will normally not allow you to switch branches if there are any uncommitted changes.)
 
 So, the working directory matches commit 6, and the changes in commit 7 are removed from the working directory. A new commit will have commit 6 as a parent. This new commit looks like this:
 
@@ -290,7 +292,7 @@ The `git checkout -b [branch] [startpoint]` command creates a new branch and the
 
 ## Merging
 
-Let's say created and checked out a new branch at commit 7, called `stuff`:
+Let's say you created and checked out a new branch at commit 7, called `stuff`:
 
     1 - 2 - 3 - 4 - 5 - 6 - 7 <- stuff <- HEAD
                          \   \
@@ -308,7 +310,7 @@ And then you do some work and commit on the `stuff` branch:
 
 After some consultation and testing, you decide that this work is ready to be moved into the "master" branch. This process is called "merging" the `stuff` branch into the `master` branch.
 
-*Note*: It is recommended that you not have any uncommited changes in your working directory before starting this process.
+*Note*: It is recommended that you not have any uncommitted changes in your working directory before starting this process.
 
 First you will have to checkout `master`, because that is the branch where you want to put new changes:
 
@@ -409,7 +411,7 @@ The simplest way to resolve a conflict, though it isn't really a resolution, is 
 
 Another way to resolve this is to take one version and get rid of the changes in the other. The version in the branch you have checked out (`master` in our example) is called "ours", and the version in the other branch (`test` in our example) is called "theirs". To resolve a conflict in this way, "checkout" the version you want and then stage it. (Note that this is a different use of "checkout".) Graphical clients may have a different way of resolving a conflict like this.
 
-A "merge tool" can also help you resolve conflicts by showing the conflicting sections and lettting you decide on the final product. But if you don't have one, you'll have to manually edit the file in the working directory. If you open it, it will look something like this:
+A "merge tool" can also help you resolve conflicts by showing the conflicting sections and letting you decide on the final product. But if you don't have one, you'll have to manually edit the file in the working directory. If you open it, it will look something like this:
 
     This project is to explore how to use Git,
     <<<<<<< HEAD:README.txt
@@ -430,7 +432,7 @@ You can then stage this file and commit.
 
 There are two cases of merge conflicts that are perhaps not obvious.
 
-The first case concerns files that are not plain text (these are also known as "binary files"). If Git detects a conflict in a binary file, it will not add any conflict markers. Instead, it will keep the version as it was at `HEAD`. You can use the ours/theirs method, or run a merge tool. Some merge tools create files such as `[conflicedfile].HEAD` and `[conflictingfile].REMOTE`, which contain the different versions, in your working directory to help you combine changes.
+The first case concerns files that are not plain text (these are also known as "binary files"). If Git detects a conflict in a binary file, it will not add any conflict markers. Instead, it will keep the version as it was at `HEAD`. You can use the ours/theirs method, or run a merge tool. Some merge tools create files such as `[conflictingfile].HEAD` and `[conflictingfile].REMOTE`, which contain the different versions, in your working directory to help you combine changes.
 
 The second case concerns octopus merges. Trying to imagine what the conflict markers would look like is difficult. Actually, this is why octopus merges are not recommended. In the case of a conflict, Git will abort the merge entirely (and rather sternly tell you that you `should not be doing an Octopus`).
 
@@ -439,7 +441,7 @@ Command-line syntax:
     git merge --abort
     git mergetool
 
-The `git merge --abort` command aborts a conflicting merge and resets the repository to its state befoe the merge.
+The `git merge --abort` command aborts a conflicting merge and resets the repository to its state before the merge.
 
 The `git mergetool` command starts a merge tool if one is installed.
 
@@ -555,9 +557,9 @@ Command-line syntax:
     git pull --all [refspec]
     git branch {-u [upstream] | --set-upstream-to=[upstream]} [branch]
 
-The `git pull` command pulls from a remote. The `[remote]` option is the name of the remote. Use `--all` instead of the name of a remote to pull from all remotes. The `[refspec]` option is the same as for fetching. That is, it can get complex, but the simple case is a list of branches separated by spaces, though it can get more complex; if `[refspec]` is omitted, Git will pull all branches from the given remote.
+The `git pull` command pulls from a remote, that is, fetches all branches and merges certain branches into the branch to which `HEAD` points. The `[remote]` option is the name of the remote. Use `--all` instead of the name of a remote to fetch from all remotes. The `[refspec]` option is the same as for fetching. That is, it can get complex, but the simple case is a list of branches separated by spaces. With this, all of the listed branches are merged into the current branch (the branch to which `HEAD` points), regardless of tracking. (This may result in an "octopus.") If `[refspec]` is omitted, Git will fetch all branches from the given remote and merge the tracked branch into the branch to which `HEAD` points.
 
-The `git branch` command with the options shown sets up tracking. It tells the branch named in `[branch]` (one of your branches) to track `[upstream]` (a remote-tracking branch). The `-u [upstream]` and `--set-upstream-to=[upstream]` options mean the same thing; you don't have to include both.
+The `git branch` command with the options shown sets up tracking. It tells the branch named in `[branch]` (one of your branches) to track `[upstream]` (a remote-tracking branch). The `-u [upstream]` and `--set-upstream-to=[upstream]` options mean the same thing.
 
 ## Putting Changes into Remotes: Push
 
@@ -573,4 +575,4 @@ Command-line syntax:
 
     git push [remote] [refspec]
 
-The `[remote]` option is the name of the remote, and `[refspec]` is the branches to push. It can get complex, but the simple case is just a list of branches separated by spaces. If `[refspec]` is omitted, Git will push all branches to the given remote.
+The `[remote]` option is the name of the remote, and `[refspec]` is the branches to push. It can get complex, but the simple case is just a list of branches separated by spaces. If `[refspec]` is omitted, Git will push all branches that have corresponding branches with the same name on the given remote. (This means that, if you created a new branch and want to push it to a remote where it doesn't exist yet, you will have to specify the name.)
