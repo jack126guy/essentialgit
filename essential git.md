@@ -115,7 +115,7 @@ If you navigate to the directory where you initialized a repository, it looks ab
 
 However, if you look at the hidden files in that directory, you will find a directory called `.git`. This directory is the core of the repository. It holds files for all the history and everything else Git needs to work. If you navigate into it, you'll find quite a few things you don't understand. But Git understands them, and you shouldn't try to work with these files directly.
 
-The files you should work with are the files in the main directory of the repository. Appropriately enough, this is called the "working directory", or the "working area". This is where you make your changes. It's also where you compile your code (if it needs to be compiled) and run tests, just as if you didn't use Git at all. Git keeps everything it needs hidden from view in the ".git" directory.
+The files you should work with are the files in the main directory of the repository. Appropriately enough, this is called the "working directory", or the "working area". This is where you make your changes. It's also where you compile your code (if it needs to be compiled) and run tests, just as if you didn't use Git at all. Git keeps everything it needs hidden from view in the `.git` directory.
 
 ## Looking at Changes: Status and Diff
 
@@ -235,7 +235,7 @@ When you make a new commit, it will be based on the work that already exists on 
 
     1 - 2 - 3 - 4 - 5 <- master <- HEAD
 
-Most of the time, `HEAD` points to a branch. When you make a new commit, Git moves HEAD and the branch to which it is pointing forward to the new commit. After another commit, `HEAD` and `master` look like this:
+Most of the time, `HEAD` points to a branch. When you make a new commit, Git moves `HEAD` and the branch to which it is pointing forward to the new commit. After another commit, `HEAD` and `master` look like this:
 
     1 - 2 - 3 - 4 - 5 - 6 <- master <- HEAD
 
@@ -282,9 +282,9 @@ Command-line syntax:
     git checkout [branch]
     git checkout -b [newbranch] [startpoint]
 
-The plain `git branch` command lists your branches. An asterisk (*) will be shown next to the current branch (that is, the branch to which HEAD is pointing).
+The plain `git branch` command lists your branches. An asterisk (*) will be shown next to the current branch (that is, the branch to which `HEAD` is pointing).
 
-The `git branch [newbranch] [startpoint]` command creates a new branch at the commit ID or branch given in the `[startpoint]` option, or at the same commit as HEAD if this option is not given.
+The `git branch [newbranch] [startpoint]` command creates a new branch at the commit ID or branch given in the `[startpoint]` option, or at the same commit as `HEAD` if this option is not given.
 
 The `git checkout [branch]` command checks out a given branch.
 
@@ -308,7 +308,7 @@ And then you do some work and commit on the `stuff` branch:
                            \
                             - 8 <- test
 
-After some consultation and testing, you decide that this work is ready to be moved into the "master" branch. This process is called "merging" the `stuff` branch into the `master` branch.
+After some consultation and testing, you decide that this work is ready to be moved into the `master` branch. This process is called "merging" the `stuff` branch into the `master` branch.
 
 *Note*: It is recommended that you not have any uncommitted changes in your working directory before starting this process.
 
@@ -380,7 +380,7 @@ The `--no-ff` option creates a merge commit even if the merge is a fast-forward.
 
 As shown above, fast-forward merges are very simple. Most merges that are not fast-forwards are also fairly simple. However, sometimes problems come up that might take some work and ingenuity to solve.
 
-Let's look at the repository before the "test" branch was merged:
+Let's look at the repository before the `test` branch was merged:
 
     1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 <- master <- HEAD
                          \
@@ -453,7 +453,7 @@ Your repository has records of these remote repositories that allow your reposit
 
 Note: If you're working with a repository over a network, you may need some sort of authentication, perhaps a password or SSH. This authentication is beyond the scope of this guide.
 
-The first step in working with remotes is to "add" it to your repository. This means creating a record of the URL or path, as well as a name. The name should be descriptive of its source, such as "company", "sourceforge", or "github". (SourceForge and GitHub are popular hosting sites for Git repositories.)
+The first step in working with remotes is to "add" it to your repository. This means creating a record of the URL or path, as well as a name. The name should be descriptive of its source, such as `company`, `sourceforge`, or `github`. (SourceForge and GitHub are popular hosting sites for Git repositories.)
 
 (If you cloned from a repository, Git already added a remote called `origin`, which refers to the repository from which you cloned. Git also already did a lot of the setup, which will be noted in each subsection.)
 
@@ -508,7 +508,7 @@ Notice that Git created new branches in your repository that start with `ourproj
 
 (If you cloned from a repository, Git has already fetched commits from it and created the remote-tracking branches starting with `origin/`.)
 
-Most likely, the remote includes commits from other contributors, so you should include them in your own work. Git won't let you put your work into the remote if it doesn't include other contributors' work as well. To include their work, merge "ourproject/master" into "master". Afterwards, your repository will look like this:
+Most likely, the remote includes commits from other contributors, so you should include them in your own work. Git won't let you put your work into the remote if it doesn't include other contributors' work as well. To include their work, merge `ourproject/master` into `master`. Afterwards, your repository will look like this:
 
     1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 <- ourproject/master
                          \               / \
