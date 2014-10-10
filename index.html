@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Essential Git v0.4</title>
+</head>
+
+<body>
+
+<p>This work is licensed under the Creative Commons Attribution 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.</p>
+
+<h1>Essential Git</h1>
+
+<h2>Introduction to This Guide</h2>
+
+<p>I learned most of what I know about Git from the book available online at <a href="http://git-scm.com/book/">http://git-scm.com/book/</a>. I highly recommend it for anyone starting to learn Git.</p>
+
+<p>Although I give that work high praise, I still wish to offer my own guide, which differs in certain respects that may make it more suitable for some people.</p>
+
+<ul>
+<li>Consideration of graphical clients: The book only considers the original Linux command-line client. This guide not only provides command-line syntax, but it also allows users of graphical clients to navigate them.</li>
+<li>Pragmatic organization: This guide introduces the most-needed concepts and tools first, and then less-used tools later.</li>
+</ul>
+
+<p>This guide goes step by step. At each step new concepts are introduced, and later steps depend on the concepts introduced in previous steps. This means you will most likely have to read this guide in order.</p>
+
+<h2>Introduction to Git and Version Control</h2>
+
+<p>If you are reading this guide, you probably already have some idea of what Git does. But maybe you just know the name and that it has something to do with software development, but you don't know what that "something" is.</p>
+
+<p>(If you've already used another version control system such as CVS, Subversion ["SVN"], Mercurial, or Darcs, you can skip this section.)</p>
+
+<p>In short, Git keeps track of files as they are changed over time. In other words, Git is a "version control system" (or a "revision control system").</p>
+
+<p>The files that are being tracked can be of any sort: text, images, audio, video, and more. However, Git and other VCSes are usually used to manage source code for software, which is text. Git includes tools that only work for text files, and other tools that only work for source code specifically. Because of this, the examples in this guide will mostly be about software development. However, much of this guide also works for other types of file tracking.</p>
+
+<p>Why is keeping track of changes important? For one thing, it lets you restore an old version if a change you made has a problem. It also lets multiple people work on the same files, often at the same time, and gracefully combine those changes into a final product.</p>
+
+<h2>Getting Software</h2>
+
+<p>To start working with Git, you'll need to install some software. Git is a software program, but sometimes it's not used directly. It doesn't have its own graphical interface (with windows, buttons, and all that), so many graphical "client" programs have been developed to interact with the base program. Many of them are free, and the base program is free. A quick online search should give you what you need.</p>
+
+<p>If you want, you can use the program directly, but it's a command-line program, and it was originally on Linux. So that means you need to know how to use a command-line, and specifically one on Unix/Linux. But you don't need to be working on a Linux system; there are Windows and Mac client programs that give you a Linux- (bash-) style command-line that works the same way for Git.</p>
+
+<p>The command-line syntax is placed at the end of each section so that you can skip over it if you are using a graphical client. If you are using the command line, this also allows you to get a conceptual understanding before you start typing things into your terminal.</p>
+
+<h3>Command-Line Basics for Git</h3>
+
+<p>(If you are using a graphical client, you can skip this subsection.)</p>
+
+<p>The basic command-line syntax is:</p>
+
+<pre><code>git [subcommand] [options]
+</code></pre>
+
+<p>Commands generally must be run when the terminal working directory is somewhere within the repository directory, otherwise Git will say <code>Not a Git repository</code>.</p>
+
+<p>To get help on a subcommand:</p>
+
+<pre><code>git help [subcommand]
+</code></pre>
+
+<p>Or:</p>
+
+<pre><code>man git-[subcommand]
+</code></pre>
+
+<p>You can also use the help commands to get the full syntax, since this guide will only cover the most-used options.</p>
+
+<p>The <code>-v</code> or <code>--verbose</code> option is available on almost all Git commands to display more information about what Git is doing. Place it right after the subcommand.</p>
+
+<h2>Starting Work</h2>
+
+<p>After you've gotten the right software, it's time to begin working. First you need to create a repository. A repository (or "repo" for short) is a collection of all the files in a project and their histories.</p>
+
+<p>A repository lies on your system. Instead of having a single repository that every contributor accesses, each contributor has a local repository where changes are made, and contributors share these changes among each other's repositories. This puts Git into a subclass of VCSes called DVCSes (distributed version control systems).</p>
+
+<p>There are two ways to create a repository: initializing and cloning.</p>
+
+<h3>Starting Fresh: Initialize ("Init", "New Repository")</h3>
+
+<p>Initializing basically means making a new, empty repository. Decide on a directory where you want to store it, and create a new repository in that directory. You can also create a new repository in a directory that already has files you're working on. That way it'll be easier to start tracking them. (It'll be easier, but they're not being tracked just yet.)</p>
+
+<p>Graphical clients:</p>
+
+<p>Graphical clients should have an option that reads "New" or "Init".</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git init
+</code></pre>
+
+<h3>Adding to an Existing Project: Clone</h3>
+
+<p>Cloning means taking an existing repository and copying it to your system. Most likely it will be over a network or online (but, the Internet is a network, right?), but it could also be in another directory on your system.</p>
+
+<p>If the repository is over a network, you should have a URL to it. Most likely it starts with either <code>http:</code>, <code>https:</code>, or <code>ssh:</code>. HTTPS may require authentication, such as a password. SSH requires some set-up, but that is beyond the scope of this guide.</p>
+
+<p>If you clone a repository, keep in mind that the repository will actually be placed in a subdirectory of the directory you specify. The name of this subdirectory will be determined automatically based on the URL or the path, or it may be specified if your graphical client has this option.</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git clone [repository] [directory]
+</code></pre>
+
+<p>This creates a repository within the current working directory. The <code>[repository]</code> option is the URL to a repository across as network, or the filesystem path to a local repository. The <code>[directory]</code> option is the name of the subdirectory; if it is not specified, the name will be determined automatically.</p>
+
+<h2>Setting Up: Configuration</h2>
+
+<p>There are many ways to configure a repository, but there are two options you need to worry about: name and e-mail address.</p>
+
+<p>Your name and e-mail address will appear alongside your changes. If you share your changes with other people (most likely you will), they will see this information.</p>
+
+<p>Graphical clients make it easy for you to set up these options. You can set them for the individual repository, or for your whole user account on your computer. This is useful if you have a project for an employer as well as personal projects: You can use a company e-mail address for the repository for the company project, and a personal e-mail address for all other projects (perhaps in your user configuration).</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git config [scope] [config-option] [value]
+</code></pre>
+
+<p>The <code>[scope]</code> option can be <code>--global</code> or <code>--system</code>, among others. If it is left out, the configuration will be set on the repository. The <code>--global</code> option indicates user configuration, and <code>--system</code> indicates system configuration (which may require administrator/superuser access).</p>
+
+<p>The <code>[config-option]</code>'s you'll need are <code>user.name</code> and <code>user.email</code>.</p>
+
+<p>If <code>[value]</code> has spaces, you'll have to put it in quotation marks for it to work.</p>
+
+<h2>The Working Directory</h2>
+
+<p>A repository is a collection of files, and not just the files you work on for your project. But you might have some trouble finding those extra files for history and tracking.</p>
+
+<p>If you navigate to the directory where you initialized a repository, it looks about the same. All your existing files are there, or there are no files as before. If you cloned a repository, there are the files of the project, but no indication of any history.</p>
+
+<p>However, if you look at the hidden files in that directory, you will find a directory called <code>.git</code>. This directory is the core of the repository. It holds files for all the history and everything else Git needs to work. If you navigate into it, you'll find quite a few things you don't understand. But Git understands them, and you shouldn't try to work with these files directly.</p>
+
+<p>The files you should work with are the files in the main directory of the repository. Appropriately enough, this is called the "working directory", or the "working area". This is where you make your changes. It's also where you compile your code (if it needs to be compiled) and run tests, just as if you didn't use Git at all. Git keeps everything it needs hidden from view in the ".git" directory.</p>
+
+<h2>Looking at Changes: Status and Diff</h2>
+
+<p>Everything's set up, so now it's time to get working! After making some changes, it's a good idea to look at exactly what you did so you don't get lost. Git remembers where you were before you made any changes, so it can figure out what changes you made.</p>
+
+<p>New files are usually called "untracked" because their histories are not yet being tracked by Git. Just think of it as meaning "new files." If you initialized a repository in a directory with existing files, those will show up as "untracked" because Git does not have any history of them yet.</p>
+
+<p>If you've renamed a file, Git will usually show the old filename as "deleted" and the new filename as "untracked".</p>
+
+<p>Graphical clients:</p>
+
+<p>A graphical client will show you what changes you made. (You might have to select a "Refresh" or "Rescan" option to see all of them.)</p>
+
+<p>The specific changes to each file might be shown in a separate area called "Diff" (short for "difference"). (Keep in mind that this generally only works for text files.) These changes may be presented in "unified diff" format:</p>
+
+<pre><code>--- a/file.txt (The first two lines show the old and new filenames.)
++++ b/file.txt (These will most likely be the same except for the "a" and "b".)
+@@ -10,4 +10,4 @@ (This line shows the range of lines that are affected in the old and new versions.)
+ This is an unchanged line to show context.
+ Unchanged lines begin with a space.
+-This line will be removed. It begins with a minus sign.
++This line has been added. It begins with a plus sign.
+ Changed lines will generally have the old line "removed" and the new line "added."
+</code></pre>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git status
+git diff [file]
+</code></pre>
+
+<p>The <code>git status</code> command shows a summary of the changes, such as which files were modified, added ("untracked"), or deleted.</p>
+
+<p>The <code>git diff</code> command shows the specific changes to a file. It displays unified diff format by default.</p>
+
+<h2>Marking Changes: Stage and Index</h2>
+
+<p>You've made some changes, but now you have to tell Git that you want to record those changes in the history. First you must tell Git exactly which changes you want to record. This is known as "staging" your changes. The "index" (also known as the "staging area") is a list of changes you've staged.</p>
+
+<p>You can pick what to stage quite precisely. You can stage changes in files, deleted files, and added ("untracked") files. You can even stage only certain lines or sections in a file.</p>
+
+<p>Graphical clients:</p>
+
+<p>Graphical clients have various ways of allowing you to stage changes.</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git add [file]
+git add -i
+git reset HEAD [file]
+git rm [file]
+</code></pre>
+
+<p>The <code>git add [file]</code> command stages all the changes in a single file. The <code>git add -i</code> command launches an interactive tool that allows you to do some of the more precise staging. (It might take some getting used to, though.)</p>
+
+<p>The <code>git reset HEAD [file]</code> command unstages a file, while keeping the changes to it in the working directory.</p>
+
+<p>The <code>git rm</code> command deletes a file. This is more "sophisticated" than deleting a file in the normal way because it also stages the deletion. (If you did delete it the normal way, though, just run <code>git rm [file]</code> to stage that deletion.)</p>
+
+<h2>Recording Changes: Commit</h2>
+
+<p>You've decided what to changes to record, so now you can record those changes you've staged. This record is called a "commit", and the process of recording the changes is called "committing".</p>
+
+<p>A commit represents the state of files in the project after a change. Each commit has any number of parent commits, which represent the state(s) of the files before the changes. Most commits have one parent. The first commit has no parents, since there is no state "before". Merge commits, which will be discussed later, have two (or possibly more) parents.</p>
+
+<p>When you commit, you should explain your changes. As a matter of fact, Git won't under normal circumstances let you commit without including some sort of message.</p>
+
+<p>The first line of the message should be a short summary of your changes. People going through the history will see this first line. Traditionally the second line is blank, and any subsequent lines will be a more detailed summary, if it is needed.</p>
+
+<p>(Note: You might see an option in a graphical client called "Signoff". This adds a line that reads <code>Signed-off-by: Your Name &lt;youremail@example.com&gt;</code>. Even though your name and e-mail address are already recorded separately, the signoff becomes significant when commits are passed around between different people for approval before they make their way into the repository.)</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git commit [options]
+</code></pre>
+
+<p>The <code>-a</code> or <code>--all</code> option automatically stages all changes (additions, modifications, and deletions) before committing. This means that you can commit without having to go through the staging process yourself, but it also means you might commit some things you didn't mean to commit. There are ways to recover from that, but still use with caution.</p>
+
+<p>There are multiple ways to specify a commit message:</p>
+
+<ul>
+<li>The <code>-m [message]</code> or <code>--message=[message]</code> option uses the text in <code>[message]</code> as the commit message. This is recommended only for very small changes, since you can only fit a short message into this option. If you made more changes, consider another option to specify the message.</li>
+<li>The <code>-F [file]</code> or <code>--file=[file]</code> option takes the contents of the file in <code>[file]</code> as the commit message.</li>
+<li>The <code>-e</code> or <code>--edit</code> option opens a text editor for you to add a message.</li>
+<li>(The <code>-s</code> or <code>--signoff</code> option adds a sign-off line to the message.)</li>
+<li>The <code>--allow-empty-message</code> option tells Git to allow you to commit without a message. This is not recommended, but it's provided for automated programs that interact with the Git command-line program.</li>
+</ul>
+
+<h2>Viewing History: Log and Show</h2>
+
+<p>Graphical clients usually have a visualizer that shows commits and their parents with lines. Clicking on a commit shows the message and the changes from the parent to that commit.</p>
+
+<p>Each commit has an ID number, which is 40 hexadecimal digits (0-9 and a-f). This ID number is used to refer to the commit in a variety of situations. Don't worry, you don't need to use the whole thing. Git lets you use the first four digits, as long as the ID is unique from that point. If it's not unique in the first four, you'll need to give more. Most projects will only need up to seven digits.</p>
+
+<p>(Technical Note: The ID number is actually the SHA-1 hash of the message, the state of the files, the name and e-mail address of the person, and so on.)</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git log
+git show [ID]
+</code></pre>
+
+<p>The <code>git log</code> command shows the ID, author, date, and full message of each commit, in reverse chronological order. This command has various options to format the log to your liking, but these are beyond the scope of this guide.</p>
+
+<p>The <code>git show</code> command shows the information for a single commit, including all the changes made in that commit.</p>
+
+<h2>Branching and Checkout</h2>
+
+<p>A branch is a single line of work. Each branch has a name, which should reflect the kind of work being done on that branch.</p>
+
+<p>If you've been working for a while, your commit history probably looks very linear, like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5
+</code></pre>
+
+<p>In these diagrams, lines indicate parent relationships, and of course older commits are parents of newer ones. So, commit 4 is the parent of commit 5, commit 3 is the parent of commit 4, and so on. Commit 1 has no parent since it is the first in this repository.</p>
+
+<p>This means you only have one line of work, that is, one branch. Every repository starts with one branch called <code>master</code>. A branch is really just a pointer to the latest commit in a line of work, and Git figures out the entire line by following the parents. The <code>master</code> branch looks like this.</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 &lt;- master
+</code></pre>
+
+<p>The <code>master</code> branch points to commit 5.</p>
+
+<p>When you make a new commit, it will be based on the work that already exists on the <code>master</code> branch. That is, it will be based on the commit to which the <code>master</code> branch is pointing. This base has a special name, <code>HEAD</code>, which looks like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 &lt;- master &lt;- HEAD
+</code></pre>
+
+<p>Most of the time, <code>HEAD</code> points to a branch. When you make a new commit, Git moves HEAD and the branch to which it is pointing forward to the new commit. After another commit, <code>HEAD</code> and <code>master</code> look like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 &lt;- master &lt;- HEAD
+</code></pre>
+
+<p><code>HEAD</code> still points to <code>master</code>, but <code>master</code> now points to commit 6.</p>
+
+<p>But the beauty of Git and many other VCSes is that your work doesn't have to be this linear. You can have multiple lines of work. In software development, most work is done on different branches, and <code>master</code> is reserved for code that is tested, finalized, and released.</p>
+
+<p>You can create a new branch that points to the same commit as <code>master</code>. Let's call it <code>test</code>. The result looks like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 &lt;- master &lt;- HEAD
+                     \
+                      &lt;- test
+</code></pre>
+
+<p>Both <code>master</code> and <code>test</code> point to commit 6.</p>
+
+<p>Notice that <code>HEAD</code> still points to <code>master</code>. When you make a new commit, <code>master</code> will be moved forward as usual, and <code>test</code> stays put. A new commit would result in this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 &lt;- master &lt;- HEAD
+                     \
+                      &lt;- test
+</code></pre>
+
+<p>Of course, this is probably not what you want; most likely, you want to work on <code>test</code>. That means moving <code>HEAD</code> to the <code>test</code> branch. To do that you'll need to "checkout" the branch. After checking out the test branch, it will look like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 &lt;- master
+                     \
+                      &lt;- test &lt;- HEAD
+</code></pre>
+
+<p>Notice now that <code>HEAD</code> points to a different commit than before. This means that new work will be based on a different state of files. As a result, Git has to change the files in the working directory to match the state of this different commit. (For this reason Git will normally not allow you to switch branches if there are any uncommitted changes.)</p>
+
+<p>So, the working directory matches commit 6, and the changes in commit 7 are removed from the working directory. A new commit will have commit 6 as a parent. This new commit looks like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 &lt;- master
+                     \
+                      - - - 8 &lt;- test &lt;- HEAD
+</code></pre>
+
+<p>Graphical clients:</p>
+
+<p>Graphical clients have various ways to create and checkout branches. Oftentimes there will be an option to checkout the branch immediately after creating it.</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git branch
+git branch [newbranch] [startpoint]
+git checkout [branch]
+git checkout -b [newbranch] [startpoint]
+</code></pre>
+
+<p>The plain <code>git branch</code> command lists your branches. An asterisk (*) will be shown next to the current branch (that is, the branch to which HEAD is pointing).</p>
+
+<p>The <code>git branch [newbranch] [startpoint]</code> command creates a new branch at the commit ID or branch given in the <code>[startpoint]</code> option, or at the same commit as HEAD if this option is not given.</p>
+
+<p>The <code>git checkout [branch]</code> command checks out a given branch.</p>
+
+<p>The <code>git checkout -b [branch] [startpoint]</code> command creates a new branch and then checks it out. It is short for <code>git branch [newbranch] [startpoint]</code> and then <code>git checkout [newbranch]</code>.</p>
+
+<h2>Merging</h2>
+
+<p>Let's say you created and checked out a new branch at commit 7, called <code>stuff</code>:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 &lt;- stuff &lt;- HEAD
+                     \   \
+                      \   &lt;- master
+                       \
+                        - 8 &lt;- test
+</code></pre>
+
+<p>And then you do some work and commit on the <code>stuff</code> branch:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 &lt;- stuff &lt;- HEAD
+                     \   \
+                      \   &lt;- master
+                       \
+                        - 8 &lt;- test
+</code></pre>
+
+<p>After some consultation and testing, you decide that this work is ready to be moved into the "master" branch. This process is called "merging" the <code>stuff</code> branch into the <code>master</code> branch.</p>
+
+<p><em>Note</em>: It is recommended that you not have any uncommitted changes in your working directory before starting this process.</p>
+
+<p>First you will have to checkout <code>master</code>, because that is the branch where you want to put new changes:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 &lt;- stuff
+                     \   \
+                      \   &lt;- master &lt;- HEAD
+                       \
+                        - 8 &lt;- test
+</code></pre>
+
+<p>Then you tell Git to merge <code>stuff</code>. Because <code>master</code> does not have any work that is not also in <code>stuff</code>, this merge is known as a "fast-forward". Git simply moves the <code>master</code> branch up to where the <code>stuff</code> branch is, like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 &lt;- stuff
+                     \           \
+                      \           &lt;- master &lt;- HEAD
+                       \
+                        - 8 &lt;- test
+</code></pre>
+
+<p>Now you can delete <code>stuff</code>. This is a common way of working with branches. After work in other branches is completed, those branches are merged into <code>master</code> and then deleted, because <code>master</code> now contains the work. The result looks like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 &lt;- master &lt;- HEAD
+                     \
+                      - - 8 &lt;- test
+</code></pre>
+
+<p>But now let's say that you also want to move the work in <code>test</code> into <code>master</code>. This is not so simple because <code>master</code> has work that is not in <code>test</code>. Git deals with this by looking at the last commits in each branch (commit 10 and commit 8), as well as the "common ancestor" of the two branches (commit 6). It then combines the work in a new commit, called a merge commit with two parents. The result looks like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 &lt;- master &lt;- HEAD
+                     \               /
+                      - - 8 - - - - -
+                           \
+                            &lt;- test
+</code></pre>
+
+<p>Notice that <code>test</code> is still pointing at commit 8. Only the branch you have checked out (<code>master</code> in this case) is moved forward. As a rule, you should checkout the branch where you want to include new changes. After a merge, the other branch stays where it is.</p>
+
+<p>You might have noticed the phrasing before: "merge <code>test</code> into <code>master</code>". This phrasing is important. "Merge <code>B</code> into <code>A</code>" means checking out <code>A</code>. However, "merge <code>A</code> into <code>B</code>" means checking out <code>B</code>.</p>
+
+<p>In this case you can also delete <code>test</code> because <code>master</code> now contains the changes on that branch. This is consistent with the practice of working on a branch, merging it, and then deleting it. Git can find the work on both branches by following both parents of the merge commit.</p>
+
+<p>It is possible to merge more than two branches at the same time, in what is known as an "octopus merge" (though you probably won't have eight in total!). The merge commit in this case will have more than two parents:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - - 12 &lt;- master &lt;- HEAD
+                     \       \        / /
+                      \       - - - 11 /
+                       \              /
+                        - 8 - - - - -/
+</code></pre>
+
+<p>But this is often not recommended because of conflicts, which will be discussed below. A better practice is to merge each branch individually.</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git merge [options] [branch]
+</code></pre>
+
+<p>An octopus merge can be done by listing multiple branches separated by spaces in the <code>[branch]</code> option.</p>
+
+<p>The <code>--no-commit</code> option does not make the merge commit. Git will combine the changes and stage them, but it will let you look around and possibly make changes before committing.</p>
+
+<p>The <code>--abort</code> option aborts a merge if it is not yet committed. Git will restore the repository to where it was before.</p>
+
+<p>The <code>-m [message]</code> option uses the text in <code>[message]</code> as the commit message. Normally Git creates an automatic message for you, but <code>-m</code> replaces the automatic message.</p>
+
+<p>The <code>-e</code> or <code>--edit</code> option opens a text editor for you to add a commit message.</p>
+
+<p>The <code>--ff-only</code> option tells Git not to peform the merge if it is not a fast-forward.</p>
+
+<p>The <code>--no-ff</code> option creates a merge commit even if the merge is a fast-forward.</p>
+
+<h2>Merge Conflicts</h2>
+
+<p>As shown above, fast-forward merges are very simple. Most merges that are not fast-forwards are also fairly simple. However, sometimes problems come up that might take some work and ingenuity to solve.</p>
+
+<p>Let's look at the repository before the "test" branch was merged:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 &lt;- master &lt;- HEAD
+                     \
+                      - - 8 &lt;- test
+</code></pre>
+
+<p>If different files were changed in commit 8 than in commits 7, 9, and 10, merging is easy: Git simply combines the new versions of the files. If the same files were changed, but in different places, Git combines those changes.</p>
+
+<p>Problems come up if the same files were changed in the same places. This situation is called a "merge conflict" (or simply a "conflict").</p>
+
+<p>A good way to see what happens is to take an example. Let's say there's a file called <code>README.txt</code>. After commit 6, the common ancestor of <code>master</code> and <code>test</code>, it looks like this:</p>
+
+<pre><code>This project is to explore how to use Git,
+a version control system.
+</code></pre>
+
+<p>In the <code>test</code> branch (after commit 8), it was changed to this:</p>
+
+<pre><code>This project is to explore how to use Git,
+a version control system (VCS).
+</code></pre>
+
+<p>In the <code>master</code> branch (after commits 7, 9, and 10), it was changed to this:</p>
+
+<pre><code>This project is to explore how to use Git,
+a version control system, or revision control system.
+</code></pre>
+
+<p>The second line differs from the common ancestor, but in different ways. If you try to merge <code>test</code> into <code>master</code>, Git will stop the merge and alert you to a conflict. You will have to edit any conflicting files to a final product, and then stage them before you commit. (Files without conflicts will already be staged for you.) Although Git automatically lists the conflicting files in the commit message, you should also use the message to explain the conflicts and how you resolved them as well.</p>
+
+<p>The simplest way to resolve a conflict, though it isn't really a resolution, is to abort the merge. Git will restore the repository to where it was before. Note that this means that any non-conflicting changes will not be merged, either.</p>
+
+<p>Another way to resolve this is to take one version and get rid of the changes in the other. The version in the branch you have checked out (<code>master</code> in our example) is called "ours", and the version in the other branch (<code>test</code> in our example) is called "theirs". To resolve a conflict in this way, "checkout" the version you want and then stage it. (Note that this is a different use of "checkout".) Graphical clients may have a different way of resolving a conflict like this.</p>
+
+<p>A "merge tool" can also help you resolve conflicts by showing the conflicting sections and letting you decide on the final product. But if you don't have one, you'll have to manually edit the file in the working directory. If you open it, it will look something like this:</p>
+
+<pre><code>This project is to explore how to use Git,
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:README.txt
+a version control system (VCS).
+=======
+a version control system, or revision control system.
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; test:README.txt
+</code></pre>
+
+<p>Conflicting sections are marked with <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> marks the beginning of the section, <code>=======</code> separates the two versions, and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> marks the end of the section.</p>
+
+<p>You can look at each version and put them together. (Remember to remove those markers when you're done!) In this example, a final result might be:</p>
+
+<pre><code>This project is to explore how to use Git,
+a version control system (VCS),
+also known as a revision control system.
+</code></pre>
+
+<p>You can then stage this file and commit.</p>
+
+<p>There are two cases of merge conflicts that are perhaps not obvious.</p>
+
+<p>The first case concerns files that are not plain text (these are also known as "binary files"). If Git detects a conflict in a binary file, it will not add any conflict markers. Instead, it will keep the version as it was at <code>HEAD</code>. You can use the ours/theirs method, or run a merge tool. Some merge tools create files such as <code>[conflictingfile].HEAD</code> and <code>[conflictingfile].REMOTE</code>, which contain the different versions, in your working directory to help you combine changes.</p>
+
+<p>The second case concerns octopus merges. Trying to imagine what the conflict markers would look like is difficult. Actually, this is why octopus merges are not recommended. In the case of a conflict, Git will abort the merge entirely (and rather sternly tell you that you <code>should not be doing an Octopus</code>).</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git merge --abort
+git mergetool
+</code></pre>
+
+<p>The <code>git merge --abort</code> command aborts a conflicting merge and resets the repository to its state before the merge.</p>
+
+<p>The <code>git mergetool</code> command starts a merge tool if one is installed.</p>
+
+<h2>Setting Up Other Repositories: Remotes</h2>
+
+<p>Chances are that you're not working alone. Remember that every contributor has a repository. So in order to transfer your changes to others, you will have to work with "remote repositories" (or simply "remotes"). A remote may be another repository on your system, or (more likely) a repository available through a network such as the Internet.</p>
+
+<p>Your repository has records of these remote repositories that allow your repository to interact with them. These records include the URL or path to the repository, a name used to refer to it within your own repository, as well as "remote-tracking branches," discussed below.</p>
+
+<p>Note: If you're working with a repository over a network, you may need some sort of authentication, perhaps a password or SSH. This authentication is beyond the scope of this guide.</p>
+
+<p>The first step in working with remotes is to "add" it to your repository. This means creating a record of the URL or path, as well as a name. The name should be descriptive of its source, such as "company", "sourceforge", or "github". (SourceForge and GitHub are popular hosting sites for Git repositories.)</p>
+
+<p>(If you cloned from a repository, Git already added a remote called <code>origin</code>, which refers to the repository from which you cloned. Git also already did a lot of the setup, which will be noted in each subsection.)</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git remote
+git remote add [name] [repository]
+git remote rm [name]
+git remote set-url [name] [repository]
+</code></pre>
+
+<p>The plain <code>git remote</code> command lists the remotes currently recorded.</p>
+
+<p>The <code>git remote add</code> command adds a new remote. The <code>[name]</code> option is the name of the remote used in your repository, and <code>[repository]</code> is the URL or path to the actual repository.</p>
+
+<p>The <code>git remote rm</code> command removes a remote; <code>[name]</code> is the name of the remote to remove.</p>
+
+<p>The <code>git remote set-url</code> command reassigns a remote to a new URL or path. (The command is called <code>set-url</code>, but a filesystem path works, too.)</p>
+
+<h3>Getting Commits from Remotes: Fetch</h3>
+
+<p>The next step is getting any commits that are already in the repository. This process is known as "fetching".</p>
+
+<p>Some interesting things happen when you fetch.</p>
+
+<p>Suppose this is a remote repository that you've called <code>ourproject</code>:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 &lt;- master &lt;- HEAD
+                     \               /
+                      - - 8 - - - - -
+                           \
+                            &lt;- test
+</code></pre>
+
+<p>And this is your repository:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 &lt;- master &lt;- HEAD
+</code></pre>
+
+<p>If these repositories are for the same project, commits 1-5 will be the same.</p>
+
+<p>After you fetch, your repository will look like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 &lt;- ourproject/master
+                 \   \               /
+                  \   - - 8 - - - - -
+                   \       \
+                    \       &lt;- ourproject/test
+                     \
+                      &lt;- master &lt;- HEAD
+</code></pre>
+
+<p>Git combined the commits from the remote with the ones in your repository. Git figured out that the commits in your repository are the same as the ones in the remote, so Git combined the commits it fetched with the commits you already have.</p>
+
+<p>Notice that Git created new branches in your repository that start with <code>ourproject/</code>. These are called "remote-tracking branches". These reflect where the branches are on the remote when you last fetched from it. Git treats these branches differently; you can't checkout these branches in the normal way, and you can't delete them in the normal way either.</p>
+
+<p>(If you cloned from a repository, Git has already fetched commits from it and created the remote-tracking branches starting with <code>origin/</code>.)</p>
+
+<p>Most likely, the remote includes commits from other contributors, so you should include them in your own work. Git won't let you put your work into the remote if it doesn't include other contributors' work as well. To include their work, merge "ourproject/master" into "master". Afterwards, your repository will look like this:</p>
+
+<pre><code>1 - 2 - 3 - 4 - 5 - 6 - 7 - 9 - 10 - 11 &lt;- ourproject/master
+                     \               / \
+                      - - 8 - - - - -   &lt;- master &lt;- HEAD
+                           \
+                            &lt;- ourproject/test
+</code></pre>
+
+<p>Notice how the merge was a fast-forward, because your <code>master</code> has no work that is not also in <code>ourproject/master</code>. When you merge remote-tracking branches, they're just like any other merges. (Merge commits can be created, and conflicts can come up.)</p>
+
+<p>Oftentimes branches are removed from the remote because they've been merged. Git doesn't automatically remove the remote-tracking branches from your repository, though. To do this, you should be able to specify an option to "prune" the remote-tracking branches when you fetch.</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git fetch [-p] [remote] [refspec]
+git remote prune [remote]
+</code></pre>
+
+<p>The <code>[remote]</code> option is the name of the remote, and <code>[refspec]</code> is the branches to fetch. It can get complex, but the simple case is just a list of branches separated by spaces. If <code>[refspec]</code> is omitted, Git will fetch all branches.</p>
+
+<p>The optional <code>-p</code> option (shown in brackets in the syntax) tells Git to prune the remote-tracking branches whose branches no longer exist in the remote repository. You can also run <code>git remote prune</code> to do this without fetching new commits.</p>
+
+<h2>Getting and Merging Commits from Remotes: Pull and Tracking</h2>
+
+<p>"Pulling" is an automatic process that fetches and then merges in one step. It's a bit strange: Git fetches the commits from all branches (and updates the corresponding remote-tracking branches), but it only merges the branch to which <code>HEAD</code> points. The appropriate remote-tracking branch is merged in.</p>
+
+<p>Wait, "appropriate" remote-tracking branch? In our example we merged <code>ourproject/master</code> into <code>master</code>. They have the same name (at the end, at least), so it makes sense. But what if you had two remotes, both with <code>master</code> branches? Then you'd have <code>ourproject/master</code> and also, say, <code>other/master</code>. Which would be merged?</p>
+
+<p>If your repository is not set up, the answer is neither. As a matter of fact, Git won't automatically merge <code>ourproject/master</code> even if it is the only remote-tracking branch with the name <code>master</code>.</p>
+
+<p>To set this up, you need to set your branch to "track" this remote-tracking branch. Yes, there are two uses of the term "track". Your branches track remote-tracking branches, and the remote-tracking branches track the actual branches on the remote.</p>
+
+<p>This is actually a good way to think about it:</p>
+
+<pre><code>your branches --(track)--&gt; remote-tracking branches --(track)--&gt; branches on remote
+</code></pre>
+
+<p>When you pull, the commits move in the opposite direction, like this:</p>
+
+<pre><code>your branches &lt;--(merge into)-- remote-tracking branches &lt;--(merge into)-- branches on remote
+</code></pre>
+
+<p>Setting up your branches to track remote-tracking branches automates the pulling process, and it also helps you work with multiple remotes. Remember <code>ourproject/master</code> and <code>other/master</code>? You could set your <code>master</code> branch to track <code>ourproject/master</code> and another branch called <code>othermaster</code> to track <code>other/master</code>. That way you can pull from both remotes and make sure the merge process goes the way you want.</p>
+
+<p>(If you cloned from a repository, Git already set up your branches to track all the remote-tracking branches from <code>origin</code>. You can change this tracking if you'd like.)</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git pull [remote] [refspec]
+git pull --all [refspec]
+git branch {-u [upstream] | --set-upstream-to=[upstream]} [branch]
+</code></pre>
+
+<p>The <code>git pull</code> command pulls from a remote, that is, fetches all branches and merges certain branches into the branch to which <code>HEAD</code> points. The <code>[remote]</code> option is the name of the remote. Use <code>--all</code> instead of the name of a remote to fetch from all remotes. The <code>[refspec]</code> option is the same as for fetching. That is, it can get complex, but the simple case is a list of branches separated by spaces. With this, all of the listed branches are merged into the current branch (the branch to which <code>HEAD</code> points), regardless of tracking. (This may result in an "octopus.") If <code>[refspec]</code> is omitted, Git will fetch all branches from the given remote and merge the tracked branch into the branch to which <code>HEAD</code> points.</p>
+
+<p>The <code>git branch</code> command with the options shown sets up tracking. It tells the branch named in <code>[branch]</code> (one of your branches) to track <code>[upstream]</code> (a remote-tracking branch). The <code>-u [upstream]</code> and <code>--set-upstream-to=[upstream]</code> options mean the same thing.</p>
+
+<h2>Putting Changes into Remotes: Push</h2>
+
+<p>After you've done your work, it's time to put your work into the remote repository. This is called "pushing" to the repository.</p>
+
+<p>Your branches tracking the remote-tracking branches also determine where your work will go when you push:</p>
+
+<pre><code>your branches --(merge into)--&gt; remote-tracking branches --(merge into)--&gt; branches on remote
+</code></pre>
+
+<p>The merges in the diagram must be fast-forwards. Your branches must include all the work in the remote repository. If they don't, Git will refuse to push under normal circumstances. Even if you've merged the remote-tracking branches, the actual branches may have new work. So you might have to pull (fetch and merge) before you push.</p>
+
+<p>Command-line syntax:</p>
+
+<pre><code>git push [remote] [refspec]
+</code></pre>
+
+<p>The <code>[remote]</code> option is the name of the remote, and <code>[refspec]</code> is the branches to push. It can get complex, but the simple case is just a list of branches separated by spaces. If <code>[refspec]</code> is omitted, Git will push all branches that have corresponding branches with the same name on the given remote. (This means that, if you created a new branch and want to push it to a remote where it doesn't exist yet, you will have to specify the name.)</p>
+
+</body>
+</html>
