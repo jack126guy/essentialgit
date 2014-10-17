@@ -1,3 +1,5 @@
+# Essential Git
+
 This is my guide to Git for beginners who may not have experience with version/revision control systems and who may be using graphical clients.
 
 [View online](http://jack126guy.github.io/essentialgit/) or [Download](http://github.com/jack126guy/essentialgit/releases)
