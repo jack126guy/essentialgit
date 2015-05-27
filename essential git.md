@@ -529,7 +529,7 @@ The `[remote]` option is the name of the remote, and `[refspec]` is the branches
 
 The optional `-p` option (shown in brackets in the syntax) tells Git to prune the remote-tracking branches whose branches no longer exist in the remote repository. You can also run `git remote prune` to do this without fetching new commits.
 
-## Getting and Merging Commits from Remotes: Pull and Tracking
+### Getting and Merging Commits from Remotes: Pull and Tracking
 
 "Pulling" is an automatic process that fetches and then merges in one step. It's a bit strange: Git fetches the commits from all branches (and updates the corresponding remote-tracking branches), but it only merges the branch to which `HEAD` points. The appropriate remote-tracking branch is merged in.
 
@@ -561,7 +561,7 @@ The `git pull` command pulls from a remote, that is, fetches all branches and me
 
 The `git branch` command with the options shown sets up tracking. It tells the branch named in `[branch]` (one of your branches) to track `[upstream]` (a remote-tracking branch). The `-u [upstream]` and `--set-upstream-to=[upstream]` options mean the same thing.
 
-## Putting Changes into Remotes: Push
+### Putting Changes into Remotes: Push
 
 After you've done your work, it's time to put your work into the remote repository. This is called "pushing" to the repository.
 
