@@ -372,7 +372,7 @@ The `-m [message]` option uses the text in `[message]` as the commit message. No
 
 The `-e` or `--edit` option opens a text editor for you to add a commit message.
 
-The `--ff-only` option tells Git not to peform the merge if it is not a fast-forward.
+The `--ff-only` option tells Git not to perform the merge if it is not a fast-forward.
 
 The `--no-ff` option creates a merge commit even if the merge is a fast-forward.
 
